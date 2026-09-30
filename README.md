@@ -55,19 +55,23 @@ Install dependencies:
 
 Place the downloaded Kaggle ZIP in dataset/raw/.
 
-Prepare a compact dataset:
+Prepare a compact sampled dataset:
 
-    python -m src.dataset.prepare_rgb_dataset --zip dataset/raw/rgb_colour_dataset.zip --output dataset/processed/rgb_training.csv --samples 250000
+    python -m src.dataset.prepare_rgb_dataset --zip dataset/raw/rgb_colour_dataset.zip --output dataset/processed/rgb_all.csv --samples 250000
 
 Or sample the RGB space directly:
 
-    python -m src.dataset.prepare_rgb_dataset --grid --output dataset/processed/rgb_training.csv --samples 250000
+    python -m src.dataset.prepare_rgb_dataset --grid --output dataset/processed/rgb_all.csv --samples 250000
 
-Train:
+Create train/validation/test splits:
+
+    python -m src.dataset.split_dataset --input dataset/processed/rgb_all.csv --output-dir dataset/processed
+
+Train on the training split:
 
     python -m src.training.train_color_model --csv dataset/processed/rgb_training.csv
 
-Evaluate:
+Evaluate on the validation split:
 
     python -m src.training.evaluate_color_model --csv dataset/processed/rgb_validation.csv
 
